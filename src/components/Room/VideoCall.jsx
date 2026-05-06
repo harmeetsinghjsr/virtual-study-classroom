@@ -189,19 +189,6 @@ const VideoCall = ({ socket, roomId, userId, username }) => {
     checkActivity();
   };
 
-  const attachAnalyser = (stream, socketId) => {
-    if (!audioContext.current) return;
-    try {
-      const source = audioContext.current.createMediaStreamSource(stream);
-      const analyser = audioContext.current.createAnalyser();
-      analyser.fftSize = 256;
-      source.connect(analyser);
-      analysers.current.set(socketId, analyser);
-    } catch (e) {
-      console.error("Audio Context Error", e);
-    }
-  };
-
   // Modified createPeerConnection to accept username
   const createPeerConnection = async (socketId, createOffer, username) => {
     if (peerConnections.current.has(socketId)) {
@@ -248,8 +235,6 @@ const VideoCall = ({ socket, roomId, userId, username }) => {
         newPeers.set(socketId, { connection: pc, stream, username });
         return newPeers;
       });
-      // Attach analyser for this peer
-      // attachAnalyser(stream, socketId); // DISABLED: Might interfere with audio playback in some browsers
     };
 
     // Create and send offer if initiator
