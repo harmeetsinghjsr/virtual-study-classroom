@@ -12,7 +12,7 @@ const DocumentEditor = ({ roomId, userId }) => {
     if (!userId || !roomId) return;
 
     // Load from local storage
-    const savedContent = localStorage.getItem(getStorageKey());
+    const savedContent = localStorage.getItem(`notes_${roomId}_${userId}`);
     if (savedContent) {
       setContent(savedContent);
     }
