@@ -6,17 +6,17 @@ const DocumentEditor = ({ roomId, userId }) => {
   const [isSaving, setIsSaving] = useState(false);
   const saveTimeoutRef = useRef(null);
 
-  const getStorageKey = () => `notes_${roomId}_${userId}`;
+  const storageKey = `notes_${roomId}_${userId}`;
 
   useEffect(() => {
     if (!userId || !roomId) return;
 
     // Load from local storage
-    const savedContent = localStorage.getItem(`notes_${roomId}_${userId}`);
+    const savedContent = localStorage.getItem(storageKey);
     if (savedContent) {
       setContent(savedContent);
     }
-  }, [roomId, userId]);
+  }, [roomId, userId, storageKey]);
 
   const handleContentChange = (e) => {
     const newContent = e.target.value;
@@ -27,7 +27,7 @@ const DocumentEditor = ({ roomId, userId }) => {
     clearTimeout(saveTimeoutRef.current);
     saveTimeoutRef.current = setTimeout(() => {
       if (userId && roomId) {
-        localStorage.setItem(getStorageKey(), newContent);
+        localStorage.setItem(storageKey, newContent);
       }
       setIsSaving(false);
     }, 1000);
