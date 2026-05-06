@@ -124,7 +124,6 @@ const Dashboard = () => {
               </p>
             ) : (
               rooms.filter(room => room.host?._id === user.id || room.host === user.id).map((room) => {
-                const isHost = true; // Since we filtered, we are always host
                 return (
                   <div
                     key={room._id}
